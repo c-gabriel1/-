@@ -1,308 +1,314 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy Birthday</title>
-  <link rel="preload" as="image" href="meme.png">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: "Comic Sans MS", "Comic Neue", cursive, sans-serif;
-      background: linear-gradient(135deg, #FFF200 0%, #FFD600 50%, #FFB300 100%);
-      background-attachment: fixed;
-      overflow: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday</title>
 
-    .doodle { position: absolute; width: 120px; height: auto; opacity: 0.9; }
-    .doodle1 { top: 100px; left: 90px; transform: rotate(10deg); }
-    .doodle2 { bottom: 90px; right: 100px; transform: rotate(20deg); }
-    .doodle3 { top: 80px; right: 50px; transform: rotate(-15deg); }
+<style>
+  :root{
+    --bg1:#FFF200; --bg2:#FFD600; --bg3:#FFB300; --accent:#FF4081;
+    --text:#ffffff; --shadow:#00000066;
+  }
 
-    .title-container {
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      height: 100vh; text-align: center;
-    }
+  html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    overflow-x:hidden;
+    font-family:"Comic Sans MS","Comic Neue",cursive,system-ui;
+    background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);
+  }
 
-    .title {
-      font-size: 4rem; color: #fff;
-      text-shadow: 3px 3px 0 #000, -3px -3px 0 #FF4081; margin: 0;
-      word-break: break-word;
-    }
+  .title-container{
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:4vh 4vw;
+    text-align:center;
+  }
 
-    .arrow-btn {
-      margin-top: 40px; font-size: 2rem; padding: 14px 24px;
-      background-color: #ffe45c; border: none; border-radius: 50px; cursor: pointer;
-      color: #000; box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease, background-color 0.2s ease;
-    }
-    .arrow-btn:hover { background-color: #ff9100; transform: scale(1.05); }
+  .title{
+    margin:0;
+    color:var(--text);
+    text-shadow:3px 3px 0 var(--shadow), -3px -3px 0 var(--accent);
+    font-size:clamp(1.6rem,6.5vw,4rem);
+    line-height:1.02;
+    word-break:break-word;
+    padding:0 1rem;
+  }
 
-    .surprise-btn {
-      position: fixed; bottom: 20px; left: 20px; padding: 10px 18px;
-      font-size: 1rem; font-weight: bold; background-color: #ff9900; color: white;
-      border: none; border-radius: 8px; cursor: pointer; box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-      transform: rotate(-5deg);
-    }
-    .surprise-btn:hover { background-color: #ffa600; transform: scale(1.05); }
+  .doodle{
+    position:absolute;
+    width:clamp(64px,18vw,120px);
+    height:auto;
+    opacity:0.95;
+    pointer-events:none;
+  }
+  .doodle1{ top:6vh; left:4vw; transform:rotate(-8deg); }
+  .doodle2{ bottom:6vh; right:6vw; transform:rotate(12deg); }
+  .doodle3{ top:8vh; right:8vw; transform:rotate(-20deg); }
 
-    /* DO NOT CLICK button + counter (bottom-right) */
-    .do-not-click-wrapper {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      z-index: 10000;
-      user-select: none;
-    }
+  .arrow-btn{
+    margin-top:clamp(16px,4vh,40px);
+    font-size:clamp(1rem,4vw,2rem);
+    padding:12px 20px;
+    border-radius:50px;
+    border:none;
+    background:#ffe45c;
+    color:#000;
+    box-shadow:2px 2px 8px rgba(0,0,0,0.25);
+    cursor:pointer;
+    min-height:44px;
+  }
+  .arrow-btn:active{ transform:scale(.98); }
 
-    .do-not-click-btn {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
-      transition: transform 0.12s ease;
-    }
-    .do-not-click-btn:active { transform: scale(0.98); }
+  .surprise-btn{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    padding:10px 16px;
+    border-radius:8px;
+    border:none;
+    background:#ff9900;
+    color:#fff;
+    font-weight:700;
+    box-shadow:2px 2px 8px rgba(0,0,0,0.2);
+    cursor:pointer;
+    z-index:9000;
+    min-height:44px;
+  }
 
-    .counter-bubble {
-      min-width: 64px;
-      padding: 8px 10px;
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-      border: 2px solid rgba(255,255,255,0.12);
-      box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
-    }
+  .do-not-click-wrapper{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    z-index:10000;
+    user-select:none;
+  }
+  .do-not-click-btn{
+    background:#000;
+    color:#fff;
+    border:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:800;
+    cursor:pointer;
+    min-height:44px;
+  }
+  .counter-bubble{
+    min-width:62px;
+    padding:8px 10px;
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    border-radius:8px;
+    text-align:center;
+    font-weight:700;
+    border:2px solid rgba(255,255,255,0.12);
+  }
 
-    /* fullscreen reveal video */
-    #special-video {
-      display: none;
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 9999;
-      background: black;
-    }
-  </style>
+  #special-video{
+    display:none;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:100000;
+    background:#000;
+  }
+
+  #meme{
+    display:none;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:99999;
+  }
+
+  @media (max-width:600px){
+    .doodle{ opacity:0.88; }
+    .title-container{ padding-top:8vh; padding-bottom:8vh; }
+    .do-not-click-wrapper{ right:6vw; bottom:14px; }
+    .surprise-btn{ left:12px; bottom:12px; padding:10px 12px; }
+    .arrow-btn{ padding:10px 16px; }
+  }
+
+</style>
 </head>
 <body>
-  <!-- doodles -->
-  <img src="doodle1.png" alt="doodle" class="doodle doodle1">
-  <img src="doodle2.png" alt="doodle" class="doodle doodle2">
-  <img src="doodle3.png" alt="doodle" class="doodle doodle3">
 
-  <!-- original surprise -->
+  <img src="doodle1.png" alt="" class="doodle doodle1">
+  <img src="doodle2.png" alt="" class="doodle doodle2">
+  <img src="doodle3.png" alt="" class="doodle doodle3">
+
   <button class="surprise-btn" onclick="triggerJumpscare()">Click for a surprise :)</button>
-  <img id="meme" src="meme.png" alt="meme" style="display:none;">
+
+  <img id="meme" src="meme.png" alt="">
+
+  <audio id="song" src="song.mp3" preload="auto"></audio>
   <audio id="whistle" src="whistle.mp3"></audio>
 
-  <!-- music -->
-  <audio id="song" src="song.mp3" preload="auto"></audio>
-
-  <!-- title area -->
   <div class="title-container">
     <h1 id="title" class="title">Happy Birthday, Mario!</h1>
     <button id="arrow" class="arrow-btn" onclick="startMessages()">→</button>
   </div>
 
-  <!-- DO NOT CLICK wrapper (bottom-right) with counter -->
   <div class="do-not-click-wrapper" aria-hidden="false">
     <button id="doNotClick" class="do-not-click-btn">DO NOT CLICK</button>
-    <div id="clickCounter" class="counter-bubble">0 / 150</div>
+    <div id="clickCounter" class="counter-bubble">0 / 50</div>
   </div>
 
-  <!-- fullscreen 5-second video (file: special.mp4) -->
   <video id="special-video" src="special.mp4" playsinline webkit-playsinline></video>
 
-  <script>
-    // ---------- jumpscare ----------
-    function triggerJumpscare() {
-      const meme = document.getElementById('meme');
-      const whistle = document.getElementById('whistle');
-      meme.style.display = 'block';
-      whistle.currentTime = 0;
-      whistle.play().catch(() => {});
-      setTimeout(() => { meme.style.display = 'none'; }, 4400);
-    }
+<script>
+  const MAX_CLICKS = 50;
+  const doBtn = document.getElementById('doNotClick');
+  const counterEl = document.getElementById('clickCounter');
+  const specialVideo = document.getElementById('special-video');
+  const song = document.getElementById('song');
+  const whistle = document.getElementById('whistle');
+  const meme = document.getElementById('meme');
 
-    // ---------- typewriter ----------
-    let typingInterval = null;
-    const arrowBtn = document.getElementById('arrow');
+  let clicks = 0;
+  let typingInterval = null;
+  let revealTimeout = null;
+  let resetTimeout = null;
+  const arrowBtn = document.getElementById('arrow');
 
-    function typeWriter(text, element, speed = 1000) {
-      return new Promise((resolve) => {
-        if (typingInterval !== null) {
+  function updateCounter(){ counterEl.textContent = `${clicks} / ${MAX_CLICKS}`; }
+  updateCounter();
+
+  function triggerJumpscare(){
+    meme.style.display = 'block';
+    whistle.currentTime = 0;
+    whistle.play().catch(()=>{ });
+    setTimeout(()=>{ meme.style.display = 'none'; }, 4400);
+  }
+
+  function typeWriter(text, element, speed = 45){
+    if (typingInterval !== null){ clearInterval(typingInterval); typingInterval = null; }
+    return new Promise(resolve=>{
+      element.textContent = '';
+      let i = 0;
+      if (arrowBtn) arrowBtn.disabled = true;
+      typingInterval = setInterval(()=>{
+        element.textContent += text.charAt(i) || '';
+        i++;
+        if (i >= text.length){
           clearInterval(typingInterval);
           typingInterval = null;
+          if (arrowBtn) arrowBtn.disabled = false;
+          resolve();
         }
-        element.textContent = '';
-        let i = 0;
-        if (arrowBtn) arrowBtn.disabled = true;
-        typingInterval = setInterval(() => {
-          element.textContent += text.charAt(i);
-          i++;
-          if (i >= text.length) {
-            clearInterval(typingInterval);
-            typingInterval = null;
-            if (arrowBtn) arrowBtn.disabled = false;
-            resolve();
-          }
-        }, speed);
-      });
-    }
+      }, speed);
+    });
+  }
 
-    // ---------- messages ----------
-    const messages = [
-      "...", "?!?!", "!!!", "3 Octombrie!!!", "3 Octombrie 2025!!!", "ZIUA TA!!!",
-      "Azi faci 18 ani!!!", "Ești major!!!", "Poți să bei legal!!!",
-      "Nu că te prea interesa pe tine înainte dacă era legal sau nu...",
-      "Dar acum poți să bei legal!!!", "Și ce o să bem!??",
-      "Whisky, gin, rom, tequila, vodka, bere, vin...", "Orice vrei tu!!!", "A, da...",
-      "Parcă trebuia să spun ceva și de sănătate și de fericire...",
-      "Îți doresc multă sănătate, fericire, împliniri, iubire, noroc...",
-      "Și mai multă băutură!!!", "Dar să nu exagerezi...", "Anul ăsta ai bacul...",
-      "Cum crezi că o să devii Chipsar Șef dacă nu iei bacul?",
-      "Sau Traducător Oficial Româno-Țigănește pentru UE", "Sau Seducător de capre",
-      "Sau Specialist Șef în relocarea țiganilor", "Sau Vânător de țigani",
-      "Sau Îmblânzitor de urși (Pensionat din motive medicale)",
-      "Sau Specialist în numărat țigani la graniță",
-      "Sau al 4-lea poet antisemit din România",
-      "Sau Consultant în fugărit țigani din sat",
-      "Sau Îmblânzitor de țigani(pensionat tot din motive medicale)",
-      "Cel mai rău caz, ajungi șofer de tir...", "Glumesc, glumesc...", "Sau poate nu...",
-      "Oricum, destule vorbe...", "Să te bucuri de ziua ta!!!"
-    ];
+  const messages = [
+    "...","?!?!","!!!","3 Octombrie!!!","3 Octombrie 2025!!!","ZIUA TA!!!",
+    "Azi faci 18 ani!!!","Ești major!!!","Poți să bei legal!!!",
+    "Nu că te prea interesa pe tine înainte dacă era legal sau nu...",
+    "Dar acum poți să bei legal!!!","Și ce o să bem!??",
+    "Whisky, gin, rom, tequila, vodka, bere, vin...","Orice vrei tu!!!","A, da...",
+    "Parcă trebuia să spun ceva și de sănătate și de fericire...",
+    "Îți doresc multă sănătate, fericire, împliniri, iubire, noroc...",
+    "Și mai multă băutură!!!","Dar să nu exagerezi...","Anul ăsta ai bacul...",
+    "Cum crezi că o să devii Chipsar Șef dacă nu iei bacul?",
+    "Sau Traducător Oficial Româno-Țigănește pentru UE","Sau Seducător de capre",
+    "Sau Specialist Șef în relocarea țiganilor","Sau Vânător de țigani",
+    "Sau Îmblânzitor de urși (Pensionat din motive medicale)",
+    "Sau Specialist în numărat țigani la graniță",
+    "Sau al 4-lea poet antisemit din România",
+    "Sau Consultant în fugărit țigani din sat",
+    "Sau Îmblânzitor de țigani(pensionat tot din motive medicale)",
+    "Cel mai rău caz, ajungi șofer de tir...","Glumesc, glumesc...","Sau poate nu...",
+    "Oricum, destule vorbe...","Să te bucuri de ziua ta!!!"
+  ];
 
-    let currentIndex = 0;
+  let currentIndex = 0;
 
-    async function startMessages() {
-      const title = document.getElementById('title');
-      const song = document.getElementById('song');
+  async function startMessages(){
+    const title = document.getElementById('title');
+    await typeWriter(messages[currentIndex], title, 40);
+    currentIndex++;
+    song.currentTime = 0;
+    song.play().catch(()=>{ });
+    arrowBtn.onclick = nextMessage;
+  }
+
+  async function nextMessage(){
+    const title = document.getElementById('title');
+    if (currentIndex < messages.length){
       await typeWriter(messages[currentIndex], title, 40);
       currentIndex++;
-      song.currentTime = 0;
-      const playPromise = song.play();
-      if (playPromise !== undefined) playPromise.catch(() => {});
-      if (arrowBtn) arrowBtn.onclick = nextMessage;
+    } else {
+      await typeWriter("La mulți ani, Mario!!! 🎉🥳🍻", title, 40);
+      if (arrowBtn) arrowBtn.style.display = 'none';
+      const fadeOut = setInterval(()=>{
+        if (!song) return clearInterval(fadeOut);
+        if (song.volume > 0.05) song.volume = Math.max(0, song.volume - 0.05);
+        else { song.volume = 1; song.pause(); song.currentTime = 0; clearInterval(fadeOut); }
+      }, 120);
     }
+  }
 
-    async function nextMessage() {
-      const title = document.getElementById('title');
-      const song = document.getElementById('song');
-
-      if (currentIndex < messages.length) {
-        await typeWriter(messages[currentIndex], title, 40);
-        currentIndex++;
-      } else {
-        await typeWriter("La mulți ani, Mario!!! 🎉🥳🍻", title, 40);
-        if (arrowBtn) arrowBtn.style.display = 'none';
-        const fadeOutInterval = setInterval(() => {
-          if (song.volume > 0.05) {
-            song.volume = Math.max(0, song.volume - 0.05);
-          } else {
-            song.volume = 0;
-            song.pause();
-            song.currentTime = 0;
-            clearInterval(fadeOutInterval);
-            song.volume = 1;
-          }
-        }, 100);
-      }
-    }
-
-    // ---------- DO NOT CLICK logic (video reveal) ----------
-    const MAX_CLICKS = 150;
-    const doBtn = document.getElementById('doNotClick');
-    const counterEl = document.getElementById('clickCounter');
-    const specialVideo = document.getElementById('special-video');
-
-    let clicks = 0;
-    let revealTimeout = null;
-    let resetTimeout = null;
-
-    function updateCounter() {
-      counterEl.textContent = `${clicks} / ${MAX_CLICKS}`;
-    }
-
-    doBtn.addEventListener('click', async () => {
-      // If a reveal is currently happening, ignore clicks
-      if (specialVideo.style.display === 'block') return;
-
-      clicks = Math.min(clicks + 1, MAX_CLICKS);
-      updateCounter();
-
-      // visual pulse
-      doBtn.style.transform = 'scale(1.05)';
-      setTimeout(() => { doBtn.style.transform = ''; }, 100);
-
-      if (clicks >= MAX_CLICKS) {
-        triggerVideoReveal();
-      }
-    });
-
-    async function triggerVideoReveal() {
-      // disable button to avoid extra clicks
-      doBtn.disabled = true;
-
-      // Show and play the video. Use user gesture (last click) to allow autoplay.
-      specialVideo.style.display = 'block';
-      specialVideo.currentTime = 0;
-      specialVideo.volume = 1;
-      const playPromise = specialVideo.play();
-      if (playPromise !== undefined) {
-        try { await playPromise; } catch (e) { /* autoplay blocked fallback */ }
-      }
-
-      // Ensure the reveal lasts 5 seconds; if the video is shorter/longer, force hide after 5s
-      revealTimeout = setTimeout(() => {
-        endVideoReveal();
-      }, 5000);
-
-      // safety: if video ends earlier than 5s, still run endVideoReveal shortly after
-      specialVideo.onended = () => {
-        if (revealTimeout) clearTimeout(revealTimeout);
-        // short delay so 'ended' isn't abrupt
-        resetTimeout = setTimeout(() => endVideoReveal(), 200);
-      };
-    }
-
-    function endVideoReveal() {
-      // hide video and reset state
-      specialVideo.pause();
-      specialVideo.currentTime = 0;
-      specialVideo.style.display = 'none';
-
-      // reset counter and re-enable button
-      clicks = 0;
-      updateCounter();
-      doBtn.disabled = false;
-
-      // clear timeouts/handlers
-      if (revealTimeout) { clearTimeout(revealTimeout); revealTimeout = null; }
-      if (resetTimeout) { clearTimeout(resetTimeout); resetTimeout = null; }
-      specialVideo.onended = null;
-    }
-
-    // cleanup on unload
-    window.addEventListener('beforeunload', () => {
-      if (revealTimeout) clearTimeout(revealTimeout);
-      if (resetTimeout) clearTimeout(resetTimeout);
-    });
-
-    // initialize counter display
+  doBtn.addEventListener('click', () => {
+    if (specialVideo.style.display === 'block') return;
+    clicks = Math.min(clicks + 1, MAX_CLICKS);
     updateCounter();
-  </script>
+    doBtn.style.transform = 'scale(1.06)';
+    setTimeout(()=> doBtn.style.transform = '', 120);
+
+    if (clicks >= MAX_CLICKS) triggerVideoReveal();
+  });
+
+  async function triggerVideoReveal(){
+    doBtn.disabled = true;
+    specialVideo.style.display = 'block';
+    specialVideo.currentTime = 0;
+    specialVideo.muted = false;
+    specialVideo.volume = 1;
+
+    try { await specialVideo.play(); } catch(e){ specialVideo.muted = true; try{ specialVideo.play().catch(()=>{}); }catch{} }
+
+    revealTimeout = setTimeout(()=> endVideoReveal(), 5000);
+
+    specialVideo.onended = ()=> { if (revealTimeout) clearTimeout(revealTimeout); resetTimeout = setTimeout(()=> endVideoReveal(), 200); };
+  }
+
+  function endVideoReveal(){
+    specialVideo.pause();
+    specialVideo.currentTime = 0;
+    specialVideo.style.display = 'none';
+    specialVideo.onended = null;
+
+    clicks = 0;
+    updateCounter();
+    doBtn.disabled = false;
+
+    if (revealTimeout){ clearTimeout(revealTimeout); revealTimeout = null; }
+    if (resetTimeout){ clearTimeout(resetTimeout); resetTimeout = null; }
+  }
+
+  window.addEventListener('beforeunload', ()=>{
+    if (typingInterval) clearInterval(typingInterval);
+    if (revealTimeout) clearTimeout(revealTimeout);
+    if (resetTimeout) clearTimeout(resetTimeout);
+  });
+
+  specialVideo.addEventListener('loadedmetadata', ()=>{ specialVideo.style.objectFit = 'cover'; });
+
+  console.log("Responsive birthday page loaded. Tested for mobile-friendly sizing.");
+</script>
+
 </body>
 </html>
